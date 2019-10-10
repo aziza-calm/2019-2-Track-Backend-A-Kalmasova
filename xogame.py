@@ -12,10 +12,18 @@ class Xofield:
             self.xof[i] = ' '
 
     def putSign(self, player, num):
+        if not num.isdigit() or num < 1 or num > 9:
+            print("You should enter the number from 1 to 9")
+            return False
+        num = int(num)
+        if (self.xof[num - 1] != ' '):
+            print ("This cell is not empty, choose another")
+            return False
         if player % 2 == 0:
             self.xof[num - 1] = 'o'
         else:
             self.xof[num - 1] = 'x'
+        return True
 
     def checkWin(self):
         return (self.xof[0] == self.xof[1] == self.xof[2] != ' ' or
@@ -39,7 +47,8 @@ field.clearField()
 player = 1
 while (1):
     num = input()
-    field.putSign(player, int(num))
+    while not field.putSign(player, num):
+        num = input()
     field.printField()
     if field.checkWin():
         print ("Congratulations!")
